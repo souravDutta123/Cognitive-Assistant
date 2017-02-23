@@ -9,8 +9,10 @@ const styles = {
   paperStyle:{
     width: "auto",
     padding:"10px",
+    paddingTop: '100px',
     backgroundImage: `url(${"../../../images/intro-back.jpg"})`,
     backgroundSize: 'cover',
+    height: (window.innerHeight)+'px',
   }
 };
 class HomeContent extends React.Component {
@@ -20,32 +22,54 @@ class HomeContent extends React.Component {
       open: true,
     }
   }
- toggleSign(){
-   this.setState({open:!this.state.open});
-   console.log("SSS");
- }
+  componentWillReceiveProps(newProps)
+  {
+    this.setState({openLogin:this.props.openLogin})
+  }
+
  render() {
-   var sign={};
-   if(this.state.open)
+   console.log("Render");
+   console.log(this.props);
+   var view={};
+   if(this.state.openLogin === 'Login')
    {
-     sign=<Login onTouchTap={this.toggleSign.bind(this)} />;
+     view=(
+       <div className="row">
+        <div className="col-sm-12 col-md-9">
+          <Introduction/>
+        </div>
+        <div className="col-sm-12 col-md-3">
+          <Login onTouchTap={this.props.toggleSign} handleLogin={this.props.handleLogin}/>;
+        </div>
+      </div>
+   )
+   }
+   else if(this.state.openLogin === 'Register')
+   {
+     view=(
+       <div className="row">
+        <div className="col-sm-12 col-md-9">
+          <Introduction/>
+        </div>
+        <div className="col-sm-12 col-md-3">
+          <Register onTouchTap={this.props.toggleSign} handleRegister={this.props.handleRegister}/>;
+        </div>
+      </div>
+   )
    }
    else
    {
-     sign=<Register onTouchTap={this.toggleSign.bind(this)} />;
+     view=(
+       <div className="row">
+        <div className="col-sm-12 col-md-12">
+          <Introduction/>
+        </div>
+      </div>
+     )
    }
    return (
      <Paper zDepth={3} style={styles.paperStyle}>
-     <div className="row">
-
-      <div className="col-sm-12 col-md-9">
-        <Introduction/>
-      </div>
-      <div className="col-sm-12 col-md-3">
-        {sign}
-      </div>
-
-     </div>
+      {view}
      </Paper>
    );
  }

@@ -1,40 +1,66 @@
 import React from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
-const styles={
-  paperStyle:{
-    textAlign: "justify",
-    opacity: "0.5",
-    padding: "20px",
-    width: "auto",
-    marginRight: 'auto',
-    marginLeft: 'auto',
-    marginTop: '20px',
-    height: "600px",
-    fontSize: "20px",
-    fontWeight:600,
-  
-  },
-  divStyle:{
-    width: "15%",
-  }
+import RaisedButton from 'material-ui/RaisedButton';
+const style = {
+height: 300,
+width: window.innerWidth/2+'px',
+marginRight: '',
+marginLeft: '25%',
+textAlign: 'justify',
+backgroundColor:'rgba(0,0,0,0.0)',
+display: 'inline-block',
+color: 'white',
+};
+const labelStyle={
+  color: 'white',
+  fontWeight: '400px',
+  fontSize: '20px',
 }
-class Introduction extends React.Component {
+const buttonStyle={
+padding: '10px',
+backgroundColor:'#EC5509',
+};
+class Introduction extends React.Component
+{
 
- render() {
-   return (
-     <div>
-     <Paper style={styles.paperStyle}>
-     <p >A card is a piece of paper with unique related data that serves as an entry point to more detailed information. For example, a card could contain a photo, text, and a link about a single subject.</p>
+render()
+{
 
-     <p>Cards have a constant width and variable height. The maximum height is limited to the height of the available space on a platform, but it can temporarily expand (for example, to display a comment field). Cards do not flip over to reveal information on the back.</p>
 
-     <p>Card expansion can be controlled (use expanded and onExpandChange properties) or uncontrolled (use initiallyExpanded property). Use the expandable property to control whether an element will react to expansion or not. Use actAsExpander on CardTitle or CardHeader to let them have an expander button.</p>
-     </Paper>
-</div>
-   );
 
- }
+
+return(
+
+ <div>
+    <Paper style={style} zDepth={0} >
+    <br/>
+    <br/>
+    <br/>
+  <h1>Conversational User Experience Platform.<br/>
+            Now we are talking.</h1><br/>
+         <h2>Build brand-unique, natural language interactions<br/>
+         for bots, applications, services, and devices.<br/>
+
+          </h2>
+          <br/>
+          <br/>
+          <br/>
+    <RaisedButton label="GET STARTED FREE" labelStyle={labelStyle}
+    backgroundColor='#EC5509' style={buttonStyle} />
+    </Paper>
+
+
+  </div>
+
+
+
+
+
+	)
+
+
+
+}
+
 }
 export default Introduction;

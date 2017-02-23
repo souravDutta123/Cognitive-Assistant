@@ -33,15 +33,30 @@ class CustomMenu extends React.Component {
   }
   componentDidMount()
   {
-
+    this.fetchMenu();
   }
-  componentWillReceiveProps(newProps){
-    if(this.props.menu!=newProps)
+  fetchMenu(){
+    var drawerMenu=[];
+    var that=this;
+    var userDetails=JSON.parse(localStorage.getItem('cognitiveUser'))||{user:{},loggedin: false};
+    if(userDetails.loggedin)
     {
-      console.log(this.props.menu);
-      this.setState({drawerMenu: this.props.menu})
+      axios.get('http://localhost:3000/menus?username'+userDetails.user.username)
+      .then(function (response){
+        drawerMenu.push({text:'Home',link:'/UserHome',subMenu: []});
+        Array.prototype.push.apply(drawerMenu, response.data[0].menu);
+        drawerMenu.push({text:'About Us',link:'/About',subMenu: []});
+        drawerMenu.push({text:'Contact Us',link:'/Contact',subMenu: []});
+        that.setState({drawerMenu});
+      })
     }
-    console.log("In Props");
+    else{
+      drawerMenu.push({text:'Home',link:'/UserHome',subMenu: []});
+      drawerMenu.push({text:'About Us',link:'/About',subMenu: []});
+      drawerMenu.push({text:'Contact Us',link:'/Contact',subMenu: []});
+      that.setState({drawerMenu});
+    }
+
   }
   createMenu()
   {
@@ -84,4 +99,4 @@ class CustomMenu extends React.Component {
 
  }
 }
-export default CustomMenu;
+export default CustomMenuList;

@@ -79,31 +79,12 @@ class Register extends React.Component {
       .then(function (response) {
         if(response.data.length === 0)
         {
-          console.log("su");
-          var profile={
-            name: that.state.name,
-            dateOfBirth: that.state.dateOfBirth,
-            email: that.state.email,
-            username: that.state.username
-          }
-
-          axios.post('http://localhost:3000/profiles', profile)
-          .then(function (response) {
-            console.log("success");
-
-          })
-          var credentials={
-            username: that.state.username,
-            password: that.state.password,
-          }
-          axios.post('http://localhost:3000/credentials', credentials)
-          .then(function (response) {
-            that.setState({open:true,message:"Successfully signed up!"})
-            browserHistory.push('/Login')
-          })
+          that.props.handleRegister(that.state);
         }
         else {
-
+          console.log("Used User name");
+          errorusername = "Choose another username";
+          that.setState({errorusername})
         }
 
       })
@@ -142,7 +123,7 @@ class Register extends React.Component {
          <TextField  hintText="RTdsrsdEE335w" name="repassword" type="password" value={this.state.repassword} onFocus={this.handleFocus.bind(this)}
           onChange={this.handleInputChange}  floatingLabelText="Re-Enter Password" errorText={this.state.errorrepassword} /><br/>
 
-        <RaisedButton label="Register" primary={true} onClick={this.handleSubmit}/>
+        <RaisedButton label="Register" primary={true} onClick={this.handleSubmit.bind(this)}/>
         <br/>
         <br/>
         <RaisedButton onTouchTap={this.props.onTouchTap}><span>You already have an account!</span></RaisedButton>

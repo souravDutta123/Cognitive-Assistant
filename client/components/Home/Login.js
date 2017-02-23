@@ -67,15 +67,7 @@ class Login extends React.Component {
     this.setState({errorusername,errorpassword})
     var that=this;
     if(errorusername+errorpassword ===""){
-      axios.get('http://localhost:3000/credentials?username='+that.state.username)
-      .then(function (response){
-        if(response.data.length === 1 && response.data[0].password == that.state.password)
-        {
-          that.setState({open: true,message: "Successfully signed in!"})
-          localStorage.setItem('cognitiveUser', JSON.stringify({user: {username:that.state.username,password:that.state.password},loggedin: true}));
-          browserHistory.push('/UserHome');
-        }
-      })
+      this.props.handleLogin({username:this.state.username,password:this.state.password});
     }
   }
   handleFocus(event)
@@ -87,7 +79,7 @@ class Login extends React.Component {
     });
   }
   render() {
-    console.log(this.props.toggleSign);
+    console.log(this.props);
     return (
 
 
@@ -112,11 +104,6 @@ class Login extends React.Component {
          errorText={this.state.errorpassword}
          floatingLabelText="Password"
         /><br/>
-        <Snackbar
-          open={this.state.open}
-          message={this.state.message}
-          autoHideDuration={3000}
-        />
         <RaisedButton label="LogIn" primary={true} onClick={this.handleSubmit} />
         <br/>
         <br/>
