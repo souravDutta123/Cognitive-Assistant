@@ -1,0 +1,71 @@
+{
+  "credentials": [
+    {
+      "username": "abc",
+      "password": "123",
+      "id": 1
+    },
+    {
+      "username": "sd",
+      "password": "123",
+      "id": 2
+    }
+  ],
+  "profiles": [
+    {
+      "name": "sss",
+      "dateOfBirth": "2017-02-12T18:30:00.000Z",
+      "email": "fdfd",
+      "username": "abc",
+      "id": 1
+    },
+    {
+      "name": "Sourav",
+      "dateOfBirth": "2017-02-07T18:30:00.000Z",
+      "email": "sefwef",
+      "username": "sd",
+      "id": 2
+    }
+  ],
+  "menus":[
+    {
+      "id": 1,
+      "username":"abc",
+      "menu":[
+        {
+          "id": 1,
+          "text":"abcx",
+          "link":"none",
+          "subMenu": [
+
+          ]
+        }
+      ]
+
+    }
+  ],
+  "notifications":[
+    {
+      "id" :"abc",
+      "notifications":[
+        {
+          "id": 1,
+          "text": "abc",
+          "link": "none",
+          "status": false
+        }
+      ]
+    },
+    {
+      "id" :"sd",
+      "notifications":[
+        {
+          "id": 1,
+          "text": "abc",
+          "link": "none",
+          "status": false
+        }
+      ]
+    }
+  ]
+}
