@@ -38,10 +38,10 @@ return(
     <br/>
   <h1>Conversational User Experience Platform.<br/>
             Now we are talking.</h1><br/>
-         <h2>Build brand-unique, natural language interactions<br/>
+         <h3>Build brand-unique, natural language interactions<br/>
          for bots, applications, services, and devices.<br/>
 
-          </h2>
+          </h3>
           <br/>
           <br/>
           <br/>

@@ -6,7 +6,7 @@ import DatePicker from 'material-ui/DatePicker';
 import Snackbar from 'material-ui/Snackbar';
 import Paper from 'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { browserHistory  } from 'react-router';
+import { browserHistory,Link  } from 'react-router';
 
 const styles={
   headerStyle:{
@@ -19,7 +19,6 @@ const styles={
     padding: '20px',
     marginRight: 'auto',
     marginLeft: 'auto',
-    marginTop: '20px',
     borderRadius: '5px',
     textAlign: "center",
   }
@@ -126,7 +125,7 @@ class Register extends React.Component {
         <RaisedButton label="Register" primary={true} onClick={this.handleSubmit.bind(this)}/>
         <br/>
         <br/>
-        <RaisedButton onTouchTap={this.props.onTouchTap}><span>You already have an account!</span></RaisedButton>
+        <Link to='/Login'><RaisedButton onTouchTap={this.props.onTouchTap}><span>Already have an account!</span></RaisedButton></Link>
         <Snackbar
           open={this.state.open}
           message={this.state.message}

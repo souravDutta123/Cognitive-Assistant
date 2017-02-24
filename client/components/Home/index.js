@@ -74,4 +74,4 @@ class HomeContent extends React.Component {
    );
  }
 }
-export {HomeContent,CustomMenu} ;
+export {HomeContent,CustomMenu,Login,Register} ;

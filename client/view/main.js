@@ -87,7 +87,7 @@ class AppHeader extends React.Component {
     this.localUserAuthentication=this.localUserAuthentication.bind(this);
     this.createRightIcon=this.createRightIcon.bind(this);
   }
-  componentWillMount(){
+  componentDidMount(){
     this.localUserAuthentication();
     this.fetchMenu();
     this.fetchNotification();
@@ -97,9 +97,10 @@ class AppHeader extends React.Component {
     var drawerMenu=[];
     var that=this;
     var userDetails=JSON.parse(localStorage.getItem('cognitiveUser'))||{user:{},loggedin: false};
+    console.log(userDetails);
     if(userDetails.loggedin)
     {
-      axios.get('http://localhost:3000/menus?username'+userDetails.user.username)
+      axios.get('http://localhost:3000/menus?username='+userDetails.user.username)
       .then(function (response){
         drawerMenu.push({text:'Home',link:'/UserHome',subMenu: []});
         Array.prototype.push.apply(drawerMenu, response.data[0].menu);
@@ -237,7 +238,6 @@ class AppHeader extends React.Component {
         that.fetchMenu();
         that.fetchProfilePic();
         that.fetchNotification();
-
       }
     })
   }
@@ -250,7 +250,7 @@ class AppHeader extends React.Component {
       email: userDetails.email,
       username: userDetails.username
     }
-
+    console.log("ABC");
     axios.post('http://localhost:3000/profiles', profile)
     .then(function (response) {
       that.setState({openLogin:"Login"});
@@ -261,6 +261,20 @@ class AppHeader extends React.Component {
     }
     axios.post('http://localhost:3000/credentials', credentials)
     .then(function (response) {
+
+      that.setState({open:true,message:"Successfully signed up!",openLogin:true});
+    })
+    axios.post('http://localhost:3000/menus', {username: credentials.username,menu: []})
+    .then(function (response) {
+      console.log("Succ");
+
+      that.setState({open:true,message:"Successfully signed up!",openLogin:true});
+    })
+    axios.post('http://localhost:3000/credentials', credentials)
+    .then(function (response) {
+      console.log("Succ");
+      browserHistory.push('/Login');
+
       that.setState({open:true,message:"Successfully signed up!",openLogin:true});
     })
   }
@@ -301,16 +315,18 @@ class AppHeader extends React.Component {
       rightIcon=(
         <div>
           <div className="header">
+          <Link to='/Login'>
             <FlatButton label="LogIn" backgroundColor='#000'
             labelStyle={styles.signInButtonLabelStyle}
             style={styles.signInButtonStyle}
             onTouchTap={this.showLogin.bind(this)
-            }/>
+            }/></Link>
           </div>
           <div className="header">
-            <RaisedButton label="Sign up free" onTouchTap={this.showRegister.bind(this)}
+
+          <Link to='/Register'>  <RaisedButton label="Sign up free" onTouchTap={this.showRegister.bind(this)}
             backgroundColor='#21254F' labelStyle={styles.signUpButtonLabelStyle}
-            style={styles.signUpButtonStyle}/>
+            style={styles.signUpButtonStyle}/></Link>
           </div>
         </div>
       );
@@ -319,28 +335,45 @@ class AppHeader extends React.Component {
     {
       rightIcon=this.createRightIcon(this.state.numberOfNotifications,this.state.userImage);
     }
-
+    console.log(this.props.children);
   var children = React.Children.map(this.props.children, function (child) {
     if(that.props.children!=null &&that.props.children.props.route.path === '/Home')
-    return React.cloneElement(child, {
+    {
+      return React.cloneElement(child, {
       handleLogin: that.handleLogin.bind(that),
       handleRegister: that.handleRegister.bind(that),
       openLogin: that.state.openLogin,
       toggleSign: that.toggleSign.bind(that)
       })
+    }
+    else if(that.props.children!=null &&that.props.children.props.route.path === '/Login')
+    {
+      return React.cloneElement(child, {
+      handleLogin: that.handleLogin.bind(that)
+      })
+    }
+    else if(that.props.children!=null &&that.props.children.props.route.path === '/Register')
+    {
+      return React.cloneElement(child, {
+      handleRegister: that.handleRegister.bind(that)
+      })
+    }
     })
 
 
     return (
       <MuiThemeProvider>
       <div>
+
         <div>
+
         <AppBar style={styles.appbarStyle}
-        title={<span style={styles.appbarTitleStyle} >Nothing</span>}
+        title={<span style={styles.appbarTitleStyle} >Cognitive Assistant</span>}
             titleStyle={styles.appbarTitleStyle}
         iconElementRight={rightIcon}
         onLeftIconButtonTouchTap={this.toggleNav.bind(this)}
         />
+        <div id="fake"></div>
         <Drawer open={this.state.openDrawer} containerStyle={styles.drawerStyle}>
           <AppBar style={styles.drawerAppbarStyle} title={<span style={styles.drawerAppbarTitleStyle}>Nothing</span>}
               titleStyle={styles.appbarTitleStyle} onLeftIconButtonTouchTap={this.toggleNav.bind(this)}/>

@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { browserHistory  } from 'react-router';
+import { browserHistory,Link  } from 'react-router';
 
 const styles={
   headerStyle:{
@@ -20,7 +20,6 @@ const styles={
     opacity: '0.8',
     marginRight: 'auto',
     marginLeft: 'auto',
-    marginTop: '20px',
     borderRadius: '5px',
     textAlign: "center",
   },
@@ -84,8 +83,6 @@ class Login extends React.Component {
 
 
         <div style={styles.divStyle}>
-        <br/>
-        <br/>
         <Paper style={styles.paperStyle}>
         <h2 style={styles.headerStyle}>Sign In</h2>
         <img src="../../../images/user-info.png" style={styles.iconImageStyle}/>
@@ -108,7 +105,7 @@ class Login extends React.Component {
         <br/>
         <br/>
 
-        <RaisedButton onTouchTap={this.props.onTouchTap}><span>Create Account</span></RaisedButton>
+          <Link to='/Register'><RaisedButton ><span>Create Account</span></RaisedButton></Link>
         </Paper>
         </div>
 
