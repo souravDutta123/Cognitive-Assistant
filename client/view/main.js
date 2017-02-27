@@ -67,6 +67,10 @@ const styles={
   appbarStyle:{
     backgroundColor: '#000',
     position: 'fixed',
+  },
+  linkStyle:{
+    textDecoration: 'none',
+    color: '#fff'
   }
 }
 class AppHeader extends React.Component {
@@ -110,7 +114,7 @@ class AppHeader extends React.Component {
       })
     }
     else{
-      drawerMenu.push({text:'Home',link:'/UserHome',subMenu: []});
+      drawerMenu.push({text:'Home',link:'/Home',subMenu: []});
       drawerMenu.push({text:'About Us',link:'/About',subMenu: []});
       drawerMenu.push({text:'Contact Us',link:'/Contact',subMenu: []});
       this.setState({drawerMenu});
@@ -177,7 +181,7 @@ class AppHeader extends React.Component {
           <Link to={`/Notification`} >
           <IconButton style={styles.iconButtonStyle}>
           <Badge badgeContent={numberOfNotifications}  >
-            <NotificationsIcon />
+            <NotificationsIcon color={'white'}/>
             </Badge>
           </IconButton>
           </Link>
@@ -253,7 +257,7 @@ class AppHeader extends React.Component {
     console.log("ABC");
     axios.post('http://localhost:3000/profiles', profile)
     .then(function (response) {
-      that.setState({openLogin:"Login"});
+      browserHistory.push('/Login')
     })
     var credentials={
       username: userDetails.username,
@@ -266,19 +270,13 @@ class AppHeader extends React.Component {
     })
     axios.post('http://localhost:3000/menus', {username: credentials.username,menu: []})
     .then(function (response) {
-      console.log("Succ");
-
-      that.setState({open:true,message:"Successfully signed up!",openLogin:true});
     })
-    axios.post('http://localhost:3000/credentials', credentials)
+    axios.post('http://localhost:3000/notifications', {id:credentials.username,notifications:[]})
     .then(function (response) {
-      console.log("Succ");
-      browserHistory.push('/Login');
 
-      that.setState({open:true,message:"Successfully signed up!",openLogin:true});
     })
   }
-  toggleSign(){
+/*  toggleSign(){
     var openLogin=this.state.openLogin;
     if(openLogin === 'none')
     {
@@ -301,7 +299,7 @@ class AppHeader extends React.Component {
   showRegister()
   {
     this.setState({openLogin:'Register'});
-  }
+  }*/
   render() {
     var drawerMenu=[];
     var rightIcon={};
@@ -319,12 +317,11 @@ class AppHeader extends React.Component {
             <FlatButton label="LogIn" backgroundColor='#000'
             labelStyle={styles.signInButtonLabelStyle}
             style={styles.signInButtonStyle}
-            onTouchTap={this.showLogin.bind(this)
-            }/></Link>
+            /></Link>
           </div>
           <div className="header">
 
-          <Link to='/Register'>  <RaisedButton label="Sign up free" onTouchTap={this.showRegister.bind(this)}
+          <Link to='/Register'>  <RaisedButton label="Sign up free"
             backgroundColor='#21254F' labelStyle={styles.signUpButtonLabelStyle}
             style={styles.signUpButtonStyle}/></Link>
           </div>
@@ -343,7 +340,6 @@ class AppHeader extends React.Component {
       handleLogin: that.handleLogin.bind(that),
       handleRegister: that.handleRegister.bind(that),
       openLogin: that.state.openLogin,
-      toggleSign: that.toggleSign.bind(that)
       })
     }
     else if(that.props.children!=null &&that.props.children.props.route.path === '/Login')
@@ -368,7 +364,7 @@ class AppHeader extends React.Component {
         <div>
 
         <AppBar style={styles.appbarStyle}
-        title={<span style={styles.appbarTitleStyle} >Cognitive Assistant</span>}
+        title={<Link to='/Home' style={styles.linkStyle}><span style={styles.appbarTitleStyle} >Cognitive Assistant</span></Link>}
             titleStyle={styles.appbarTitleStyle}
         iconElementRight={rightIcon}
         onLeftIconButtonTouchTap={this.toggleNav.bind(this)}
