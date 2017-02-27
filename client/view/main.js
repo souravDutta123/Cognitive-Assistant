@@ -106,8 +106,14 @@ class AppHeader extends React.Component {
     {
       axios.get('http://localhost:3000/menus?username='+userDetails.user.username)
       .then(function (response){
-        drawerMenu.push({text:'Home',link:'/UserHome',subMenu: []});
-        Array.prototype.push.apply(drawerMenu, response.data[0].menu);
+        drawerMenu.push({text:'Chats',link:'/UserHome',subMenu: []});
+        drawerMenu.push({text:'Account Settings',link:'',subMenu: [{text:'Profile',link:'/Profile',subMenu: []},
+        {text:'Change Password',link:'/ChangePassword',subMenu: []}]});
+        drawerMenu.push({text:'Voice Settings',link:'',subMenu: [{text:'Us-English',link:'/Language',subMenu: []}
+        ]});
+        drawerMenu.push({text:'Assistance Settings',link:'/About',subMenu: [
+          {text:'Services',link:'',subMenu: response.data[0].menu}
+        ]});
         drawerMenu.push({text:'About Us',link:'/About',subMenu: []});
         drawerMenu.push({text:'Contact Us',link:'/Contact',subMenu: []});
         that.setState({drawerMenu});
@@ -142,8 +148,7 @@ class AppHeader extends React.Component {
       that.setState({userImage});
     })
   }
-
-
+  
   localUserAuthentication(){
     var that=this;
     var userDetails=JSON.parse(localStorage.getItem('cognitiveUser')) || {user:{},loggedin: false};
@@ -243,6 +248,9 @@ class AppHeader extends React.Component {
         that.fetchProfilePic();
         that.fetchNotification();
       }
+      else{
+        that.setState({message: "Invalid Username or Password",openSnackbar: true});
+      }
     })
   }
   handleRegister(userDetails)
@@ -267,6 +275,7 @@ class AppHeader extends React.Component {
     .then(function (response) {
 
       that.setState({open:true,message:"Successfully signed up!",openLogin:true});
+
     })
     axios.post('http://localhost:3000/menus', {username: credentials.username,menu: []})
     .then(function (response) {
@@ -370,7 +379,7 @@ class AppHeader extends React.Component {
         onLeftIconButtonTouchTap={this.toggleNav.bind(this)}
         />
         <div id="fake"></div>
-        <Drawer open={this.state.openDrawer} containerStyle={styles.drawerStyle}>
+        <Drawer open={this.state.openDrawer} containerStyle={styles.drawerStyle} onRequestChange={(open) => this.setState({openDrawer:open})}>
           <AppBar style={styles.drawerAppbarStyle} title={<span style={styles.drawerAppbarTitleStyle}>Nothing</span>}
               titleStyle={styles.appbarTitleStyle} onLeftIconButtonTouchTap={this.toggleNav.bind(this)}/>
           <List>

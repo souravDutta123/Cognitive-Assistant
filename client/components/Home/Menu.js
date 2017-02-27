@@ -30,6 +30,7 @@ class CustomMenu extends React.Component {
     this.state={
       drawerMenu: [],
     }
+   this.handleNestedListToggle=this.handleNestedListToggle.bind(this);
   }
   componentDidMount()
   {
@@ -43,11 +44,18 @@ class CustomMenu extends React.Component {
     }
     console.log("In Props");
   }
-  createMenu()
+  handleNestedListToggle(item){
+    console.log(item);
+    console.log(this);
+    item.setState({
+      open: item.state.open,
+    });
+  };
+  createMenu(drawerMenu)
   {
 
     var menuItems=[];
-    var drawerMenu=this.state.drawerMenu;
+    var that=this;
     drawerMenu.forEach(function(item){
       var x={};
       if(item.subMenu.length === 0)
@@ -61,11 +69,13 @@ class CustomMenu extends React.Component {
       }
       else
       {
+
         x=<ListItem
                     key={item.text}
                     primaryText={item.text}
-                    open={false}
-                    nestedItems={this.createMenu(item.subMenu)}
+                    open={that.state.open}
+                    onNestedListToggle={that.handleNestedListToggle}
+                    nestedItems={that.createMenu(item.subMenu)}
                   />
       }
       menuItems.push(x);
@@ -75,7 +85,7 @@ class CustomMenu extends React.Component {
     )
   }
  render() {
-   var menu=this.createMenu();
+   var menu=this.createMenu(this.state.drawerMenu);
    return (
      <div>
      {menu}
