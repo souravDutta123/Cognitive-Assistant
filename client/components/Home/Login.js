@@ -3,34 +3,43 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { browserHistory  } from 'react-router';
+import { browserHistory,Link  } from 'react-router';
+import FontIcon from 'material-ui/FontIcon';
 
 const styles={
   headerStyle:{
     color: '#999',
     textAlign: 'left'
   },
-  paperStyle:{
-    height: 'auto',
-    width: 'auto',
-    padding: '20px',
-    opacity: '0.8',
-    marginRight: 'auto',
-    marginLeft: 'auto',
-    marginTop: '20px',
-    borderRadius: '5px',
-    textAlign: "center",
+  divStyle1:{
+    textAlign: 'center',
   },
-  divStyle:{
-    marginTop: 'auto',
-    marginBottom: 'auto',
+  divStyle2:{
+    textAlign: 'center',
+    height: window.innerHeight+'px',
+    backgroundColor: '#eee',
   },
   iconImageStyle:{
     width: 100,
     height: 100,
+  },
+  buttonStyle:{
+  padding: '10px',
+  width: '200px',
+  backgroundColor:'#F57C00',
+  borderRadius: '4px',
+  },
+  flatButtonStyle:{
+    padding: '10px',
+    height: '50px',
+    fontSize: '20px',
+  },
+  buttonLabelStyle:{
+    color: '#fff',
   }
 }
 
@@ -81,37 +90,46 @@ class Login extends React.Component {
   render() {
     console.log(this.props);
     return (
+      <div className='row'>
+        <div className='col-md-2'>
+        </div>
+        <div className="col-sm-12 col-md-4" style={styles.divStyle1}>
 
-
-        <div style={styles.divStyle}>
-        <br/>
-        <br/>
-        <Paper style={styles.paperStyle}>
         <h2 style={styles.headerStyle}>Sign In</h2>
         <img src="../../../images/user-info.png" style={styles.iconImageStyle}/>
         <br/>
         <TextField hintText="Sourav" name="username" type="text" value={this.state.username} onChange={this.handleInputChange}
-        onFocus={this.handleFocus.bind(this)}
+        onFocus={this.handleFocus.bind(this)} fullWidth={true}
         errorText={this.state.errorusername}
          floatingLabelText="Username"/><br/>
 
         <TextField hintText="asdwz6a56agywe2#"
          type="password"
          name="password"
-         value={this.state.password}
+         value={this.state.password} fullWidth={true}
          onChange={this.handleInputChange}
          onFocus={this.handleFocus.bind(this)}
          errorText={this.state.errorpassword}
          floatingLabelText="Password"
-        /><br/>
-        <RaisedButton label="LogIn" primary={true} onClick={this.handleSubmit} />
+        /><br/><br/><br/>
+        <RaisedButton label="LogIn" onClick={this.handleSubmit} backgroundColor='#F57C00' fullWidth={true}
+        labelStyle={styles.buttonLabelStyle} style={styles.buttonStyle}/><br/>
         <br/>
         <br/>
 
-        <RaisedButton onTouchTap={this.props.onTouchTap}><span>Create Account</span></RaisedButton>
-        </Paper>
+          <Link to='/Register'><FlatButton style={styles.flatButtonStyle} primary={true}><span>Create Account</span></FlatButton></Link>
+
         </div>
-
+        <div className="col-sm-12 col-md-6" style={styles.divStyle2}>
+          <br/>
+          <br/>
+          <RaisedButton label="LogIn with Facebook" onClick={this.handleSubmit}  className="logInButtonStyle"/><br/>
+          <RaisedButton label="LogIn with Gmail" onClick={this.handleSubmit}  className="logInButtonStyle"/><br/>
+          <RaisedButton icon={<FontIcon className="muidocs-icon-custom-github" />}
+          label="LogIn with Github"  onClick={this.handleSubmit} className="logInButtonStyle"/><br/>
+          <RaisedButton label="LogIn with Linked In" onClick={this.handleSubmit} className="logInButtonStyle"/><br/>
+        </div>
+      </div>
     );
   }
 }
