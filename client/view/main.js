@@ -148,7 +148,7 @@ class AppHeader extends React.Component {
       that.setState({userImage});
     })
   }
-  
+
   localUserAuthentication(){
     var that=this;
     var userDetails=JSON.parse(localStorage.getItem('cognitiveUser')) || {user:{},loggedin: false};
@@ -242,6 +242,11 @@ class AppHeader extends React.Component {
       if(response.data.length === 1 && response.data[0].password == credentials.password)
       {
         that.setState({loggedin: true,message: "Successfully signed in!",openSnackbar: true});
+        setTimeout(() => {
+            that.setState({
+            openSnackbar: false
+          })
+        }, 2000);
         localStorage.setItem('cognitiveUser', JSON.stringify({user: {username:credentials.username,password:credentials.password},loggedin: true}));
         browserHistory.push('/UserHome');
         that.fetchMenu();
@@ -250,6 +255,11 @@ class AppHeader extends React.Component {
       }
       else{
         that.setState({message: "Invalid Username or Password",openSnackbar: true});
+        setTimeout(() => {
+            that.setState({
+            openSnackbar: false
+          })
+        }, 2000);
       }
     })
   }
@@ -275,6 +285,11 @@ class AppHeader extends React.Component {
     .then(function (response) {
 
       that.setState({open:true,message:"Successfully signed up!",openLogin:true});
+      setTimeout(() => {
+          that.setState({
+          openSnackbar: false
+        })
+      }, 2000);
 
     })
     axios.post('http://localhost:3000/menus', {username: credentials.username,menu: []})
@@ -365,7 +380,6 @@ class AppHeader extends React.Component {
     }
     })
 
-
     return (
       <MuiThemeProvider>
       <div>
@@ -373,13 +387,14 @@ class AppHeader extends React.Component {
         <div>
 
         <AppBar style={styles.appbarStyle}
-        title={<Link to='/Home' style={styles.linkStyle}><span style={styles.appbarTitleStyle} >Cognitive Assistant</span></Link>}
+        title={<Link to={(this.state.loggedin === true)?'/UserHome':'/Home'} style={styles.linkStyle}><span style={styles.appbarTitleStyle} >Cognitive Assistant</span></Link>}
             titleStyle={styles.appbarTitleStyle}
         iconElementRight={rightIcon}
         onLeftIconButtonTouchTap={this.toggleNav.bind(this)}
         />
         <div id="fake"></div>
-        <Drawer open={this.state.openDrawer} containerStyle={styles.drawerStyle} onRequestChange={(open) => this.setState({openDrawer:open})}>
+        <Drawer open={this.state.openDrawer} containerStyle={styles.drawerStyle}
+        docked={false} onRequestChange={(open) => this.setState({openDrawer:open})}>
           <AppBar style={styles.drawerAppbarStyle} title={<span style={styles.drawerAppbarTitleStyle}>Nothing</span>}
               titleStyle={styles.appbarTitleStyle} onLeftIconButtonTouchTap={this.toggleNav.bind(this)}/>
           <List>
@@ -389,7 +404,7 @@ class AppHeader extends React.Component {
         <Snackbar
           open={this.state.openSnackbar}
           message={this.state.message}
-          autoHideDuration={3000}
+          autoHideDuration={2000}
         />
         </div>
         {children}
