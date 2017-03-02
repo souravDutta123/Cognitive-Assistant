@@ -17,8 +17,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {HomeContent,CustomMenu} from '../components/Home/index.js'
 import { Link,browserHistory  } from 'react-router';
 import axios from 'axios';
-
-const styles={
+var styles={
   signInButtonStyle:{
     margin:'10px',
     border: '0px solid black',
@@ -67,12 +66,14 @@ const styles={
   appbarStyle:{
     backgroundColor: '#000',
     position: 'fixed',
+    width: '100%',
   },
   linkStyle:{
     textDecoration: 'none',
     color: '#fff'
   }
 }
+
 class AppHeader extends React.Component {
 
   constructor(props) {
@@ -87,16 +88,21 @@ class AppHeader extends React.Component {
       loggedin: false,
       message: "",
       openLogin: 'none',
+      width: '',
+      height: '',
     };
     this.localUserAuthentication=this.localUserAuthentication.bind(this);
     this.createRightIcon=this.createRightIcon.bind(this);
+    this.updateDimensions=this.updateDimensions.bind(this);
   }
   componentDidMount(){
     this.localUserAuthentication();
     this.fetchMenu();
     this.fetchNotification();
     this.fetchProfilePic();
+    window.addEventListener("resize", this.updateDimensions);
   }
+
   fetchMenu(){
     var drawerMenu=[];
     var that=this;
@@ -120,7 +126,7 @@ class AppHeader extends React.Component {
       })
     }
     else{
-      drawerMenu.push({text:'Home',link:'/Home',subMenu: []});
+      drawerMenu.push({text:'Home',link:'/Home',subMenu: [],icon: 'home'});
       drawerMenu.push({text:'About Us',link:'/About',subMenu: []});
       drawerMenu.push({text:'Contact Us',link:'/Contact',subMenu: []});
       this.setState({drawerMenu});
@@ -324,6 +330,13 @@ class AppHeader extends React.Component {
   {
     this.setState({openLogin:'Register'});
   }*/
+  updateDimensions()
+  {
+    console.log("updating dimension"+window.innerWidth);
+    this.setState({height: window.innerHeight,width: window.innerWidth});
+    console.log(this.state.width);
+  }
+
   render() {
     var drawerMenu=[];
     var rightIcon={};
@@ -378,13 +391,14 @@ class AppHeader extends React.Component {
       handleRegister: that.handleRegister.bind(that)
       })
     }
+    return child;
     })
 
     return (
       <MuiThemeProvider>
       <div>
 
-        <div>
+        <div >
 
         <AppBar style={styles.appbarStyle}
         title={<Link to={(this.state.loggedin === true)?'/UserHome':'/Home'} style={styles.linkStyle}><span style={styles.appbarTitleStyle} >Cognitive Assistant</span></Link>}
@@ -395,7 +409,7 @@ class AppHeader extends React.Component {
         <div id="fake"></div>
         <Drawer open={this.state.openDrawer} containerStyle={styles.drawerStyle}
         docked={false} onRequestChange={(open) => this.setState({openDrawer:open})}>
-          <AppBar style={styles.drawerAppbarStyle} title={<span style={styles.drawerAppbarTitleStyle}>Nothing</span>}
+          <AppBar style={styles.drawerAppbarStyle} title={<span style={styles.drawerAppbarTitleStyle}>Lucy</span>}
               titleStyle={styles.appbarTitleStyle} onLeftIconButtonTouchTap={this.toggleNav.bind(this)}/>
           <List>
             <CustomMenu menu={this.state.drawerMenu}/>

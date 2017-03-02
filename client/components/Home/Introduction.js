@@ -2,97 +2,108 @@ import React from 'react';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router';
-const style = {
-height: 300,
-width: window.innerWidth/2+'px',
-marginRight: '',
-marginLeft: '25%',
-textAlign: 'justify',
-backgroundColor:'rgba(0,0,0,0.0)',
-display: 'inline-block',
-color: 'white',
-};
-const labelStyle={
-  color: 'white',
-  fontWeight: '400px',
-  fontSize: '20px',
-}
-const buttonStyle={
-padding: '10px',
-backgroundColor:'#EC5509',
-borderRadius: '4px',
-};
-const styles={
-  paperStyle:{
-    width: "auto",
-    padding:"10px",
-    paddingTop: '100px',
-    backgroundImage: `url(${"../../../images/intro-back.jpg"})`,
-    backgroundSize: 'cover',
-    height: (window.innerHeight)+'px',
-  },
-  styleRow:{
-    paddingTop: "40px",
-    paddingBottom: "40px",
-    paddingLeft: "60px",
-    paddingRight: "60px",
-    textAlign: "justify",
-  },
-  styleRowGrey:{
-    paddingTop: "40px",
-    paddingBottom: "40px",
-    paddingLeft: "60px",
-    paddingRight: "60px",
-    textAlign: "justify",
-    backgroundColor: "#efefef",
-  },
-  styleRowGreyCenter:{
-    paddingTop: "40px",
-    paddingBottom: "40px",
-    paddingLeft: "260px",
-    paddingRight: "260px",
-    textAlign: "center",
-    backgroundColor: "#efefef",
-  },
-  styleRowGreyCenter2:{
-    paddingTop: "40px",
-    paddingBottom: "40px",
-    paddingLeft: "40px",
-    paddingRight: "40px",
-    textAlign: "center",
-    backgroundColor: "#efefef",
-  },
-  styleRowFooter1:{
-    paddingTop: "20px",
-    paddingBottom: "20px",
-    paddingLeft: "60px",
-    paddingRight: "60px",
-    textAlign: "justify",
-    backgroundColor: "#c6c6c6",
-  },
-  styleRowFooter2:{
-    paddingTop: "10px",
-    paddingBottom: "10px",
-    paddingLeft: "60px",
-    paddingRight: "60px",
-    textAlign: "justify",
-    backgroundColor: "#444444",
-    color: "white",
-  }
-}
+
 
 class Introduction extends React.Component
 {
-
+  constructor(){
+    super();
+    this.state={
+      height: '',
+      width: '',
+    }
+    this.updateDimensions=this.updateDimensions.bind(this);
+  }
+  updateDimensions()
+  {
+    console.log("updating dimension"+window.innerWidth);
+    this.setState({height: window.innerHeight,width: window.innerWidth});
+    console.log(this.state.width);
+  }
+  componentDidMount()
+  {
+    window.addEventListener("resize", this.updateDimensions);
+  }
 render()
 {
-
+  var style = {
+  height: 300,
+  width: '100%',
+  textAlign: 'left',
+  padding: '10px',
+  backgroundColor:'rgba(0,0,0,0.0)',
+  display: 'inline-block',
+  color: 'white',
+  };
+  const labelStyle={
+    color: 'white',
+    fontWeight: '400px',
+    fontSize: '20px',
+  }
+  const buttonStyle={
+  padding: '10px',
+  backgroundColor:'#EC5509',
+  borderRadius: '4px',
+  };
+  var styles={
+    divRowStyle:{
+      backgroundImage: `url(${"../../../images/intro-back.jpg"})`,
+      backgroundSize: 'cover',
+    },
+    styleRow:{
+      paddingTop: "40px",
+      paddingBottom: "40px",
+      paddingLeft: "60px",
+      paddingRight: "60px",
+      textAlign: "justify",
+    },
+    styleRowGrey:{
+      paddingTop: "40px",
+      paddingBottom: "40px",
+      paddingLeft: "60px",
+      paddingRight: "60px",
+      textAlign: "justify",
+      backgroundColor: "#efefef",
+    },
+    styleRowGreyCenter:{
+      paddingTop: "40px",
+      paddingBottom: "40px",
+      paddingLeft: "260px",
+      paddingRight: "260px",
+      textAlign: "center",
+      backgroundColor: "#efefef",
+    },
+    styleRowGreyCenter2:{
+      paddingTop: "40px",
+      paddingBottom: "40px",
+      paddingLeft: "40px",
+      paddingRight: "40px",
+      textAlign: "center",
+      backgroundColor: "#efefef",
+    },
+    styleRowFooter1:{
+      paddingTop: "20px",
+      paddingBottom: "20px",
+      paddingLeft: "60px",
+      paddingRight: "60px",
+      textAlign: "justify",
+      backgroundColor: "#c6c6c6",
+    },
+    styleRowFooter2:{
+      paddingTop: "10px",
+      paddingBottom: "10px",
+      paddingLeft: "60px",
+      paddingRight: "60px",
+      textAlign: "justify",
+      backgroundColor: "#444444",
+      color: "white",
+    }
+  }
 return(
 <div>
-  <div className="row">
-   <div className="col-sm-12 col-md-12">
-    <Paper zDepth={0} style={styles.paperStyle}>
-      <div>
+  <div className="row" style={styles.divRowStyle}>
+      <div className="col-md-3"></div>
+      <div className="col-sm-12 col-md-6">
       <Paper style={style} zDepth={0} >
       <br/>
       <br/>
@@ -110,8 +121,7 @@ return(
       backgroundColor='#EC5509' style={buttonStyle} /></Link>
       </Paper>
     </div>
-    </Paper>
-   </div>
+    <div className="col-md-3"></div>
  </div>
 
     <div className="row" style={styles.styleRow}>
@@ -124,7 +134,7 @@ return(
         <img src="../../../images/1.png" alt="Voice-Enable Your Product with Lucy" className="img-responsive"/>
       </div>
     </div>
-    <div className="row" style={styles.styleRowGreyCenter}>
+    <div className="row" style={styles.styleRowGrey}>
       <div className="col-sm-12 col-md-12">
       <h1>How LVS Works</h1>
         <span>As an LVS developer, you can build products with access to Lucy’s growing list of capabilities through our regular API updates, feature launches, and from Lucy skills contributed by our active developer community. Best of all, LVS is free to use.</span>
@@ -132,18 +142,18 @@ return(
     </div>
     <div className="row" style={styles.styleRowGrey}>
       <div className="col-sm-12 col-md-4">
-        <img src="../../../images/2.png" alt="Natural Voice Control"/>
+        <img src="../../../images/2.png" alt="Natural Voice Control" className="img-responsive"/>
         <h3>Natural Voice Control</h3>
         <span>Lucy has finely tuned automatic speech recognition (ASR) and natural language understanding (NLU) engines that recognize and respond to voice requests instantly.
         <br/><a href="#">See more LVS features »</a></span>
       </div>
       <div className="col-sm-12 col-md-4">
-        <img src="../../../images/3.png" alt=""/>
+        <img src="../../../images/3.png" alt="" className="img-responsive"/>
         <h3>Always Getting Smarter</h3>
         <span>Lucy is always getting smarter with new capabilities and services through machine learning, regular API updates, feature launches, and custom skills from the Lucy Skills Kit (LSK).</span>
       </div>
       <div className="col-sm-12 col-md-4">
-        <img src="../../../images/4.png" alt=""/>
+        <img src="../../../images/4.png" alt="" className="img-responsive"/>
         <h3>Free, Easy Integration</h3>
         <span>The LVS API is a programming language agnostic service that makes it easy to integrate Lucy into your devices, services, and applications. Best of all, it’s free.
         <br/><a href="#">Get started »</a></span>

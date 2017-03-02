@@ -89,6 +89,12 @@ class Register extends React.Component {
       dateOfBirth: date
     });
   }
+  handleKeyPress(target){
+    if(target.charCode == 13)
+    {
+      this.handleSubmit();
+    }
+  }
   handleSubmit(event) {
     var errorname = (this.state.name ==='')? "Required" : "";
     var errordateOfBirth = (this.state.dateOfBirth ==='')? "Required" : "";
@@ -135,22 +141,27 @@ class Register extends React.Component {
         <div className="col-sm-12 col-md-4" style={styles.divStyle1}>
         <h2 style={styles.headerStyle}>Sign Up</h2>
         <TextField hintText="Sourav" name="name" type="text" value={this.state.name} onFocus={this.handleFocus.bind(this)}
+         onKeyPress={this.handleKeyPress.bind(this)}
          onChange={this.handleInputChange}  floatingLabelText="Name" errorText={this.state.errorname} fullWidth={true}/><br/>
 
         <DatePicker hintText="20-08-1994" name="dateOfBirth" mode="landscape" value={this.state.dateOfBirth} onFocus={this.handleFocus.bind(this)}
           onChange={this.handleDateChange.bind(this)} autoOk={true} floatingLabelText="Date Of Birth" errorText={this.state.errordateOfBirth}
-          fullWidth={true} /><br/>
+          fullWidth={true} onKeyPress={this.handleKeyPress.bind(this)}/><br/>
 
          <TextField hintText="abc@abc.com" name="email" type="email" value={this.state.email} onFocus={this.handleFocus.bind(this)}
+         onKeyPress={this.handleKeyPress.bind(this)}
           onChange={this.handleInputChange} floatingLabelText="Email" errorText={this.state.erroremail} fullWidth={true}/><br/>
 
         <TextField hintText="Sourav123"  name="username"  type="text"  value={this.state.username} onFocus={this.handleFocus.bind(this)}
+        onKeyPress={this.handleKeyPress.bind(this)}
          onChange={this.handleInputChange} floatingLabelText="Username" errorText={this.state.errorusername} fullWidth={true}/><br/>
 
         <TextField  hintText="RTdsrsdEE335w" name="password" type="password" value={this.state.password} onFocus={this.handleFocus.bind(this)}
+        onKeyPress={this.handleKeyPress.bind(this)}
          onChange={this.handleInputChange}  floatingLabelText="Password" errorText={this.state.errorpassword} fullWidth={true}/><br/>
 
          <TextField  hintText="RTdsrsdEE335w" name="repassword" type="password" value={this.state.repassword} onFocus={this.handleFocus.bind(this)}
+         onKeyPress={this.handleKeyPress.bind(this)}
           onChange={this.handleInputChange}  floatingLabelText="Re-Enter Password" errorText={this.state.errorrepassword} fullWidth={true}/><br/><br/>
 
         <RaisedButton label="Register"  style={styles.buttonStyle} labelStyle={styles.buttonLabelStyle} backgroundColor='#F57C00'

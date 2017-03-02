@@ -2,6 +2,7 @@ import React from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
+import FontIcon from 'material-ui/FontIcon';
 import {List,ListItem} from 'material-ui/List';
 import { Link,browserHistory  } from 'react-router';
 import axios from 'axios';
@@ -45,7 +46,16 @@ class CustomMenu extends React.Component {
     console.log("In Props");
   }
   handleNestedListToggle(item){
+    console.log(item.target);
+    console.log(this);
+    item.setState({
+      open: item.state.open,
+    });
+  };
+  handleNestedListToggle1(event,item){
+    console.log(event.target.children);
     console.log(item);
+    console.log('click');
     console.log(this);
     item.setState({
       open: item.state.open,
@@ -70,13 +80,13 @@ class CustomMenu extends React.Component {
       else
       {
 
-        x=<ListItem
+        x=<div onTouchTap={that.handleNestedListToggle1.bind(that)}><ListItem
                     key={item.text}
                     primaryText={item.text}
                     open={that.state.open}
                     onNestedListToggle={that.handleNestedListToggle}
                     nestedItems={that.createMenu(item.subMenu)}
-                  />
+                  /></div>
       }
       menuItems.push(x);
     })

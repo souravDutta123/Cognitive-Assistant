@@ -10,7 +10,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { browserHistory,Link  } from 'react-router';
 import FontIcon from 'material-ui/FontIcon';
 
-const styles={
+/*const styles={
   headerStyle:{
     color: '#999',
     textAlign: 'left'
@@ -42,7 +42,7 @@ const styles={
     color: '#fff',
   }
 }
-
+*/
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -54,12 +54,22 @@ class Login extends React.Component {
       errorpassword: "",
       message: "",
       open: false,
+      height: '',
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.updateDimensions=this.updateDimensions.bind(this);
   }
-
+  componentDidMount()
+  {
+    window.addEventListener("resize", this.updateDimensions);
+  }
+  updateDimensions()
+  {
+    console.log("updating dimension"+window.innerHeight);
+    this.setState({height: window.innerHeight});
+  }
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -87,8 +97,46 @@ class Login extends React.Component {
       [name]: ""
     });
   }
+  handleKeyPress(target){
+    if(target.charCode == 13)
+    {
+      this.handleSubmit();
+    }
+  }
   render() {
     console.log(this.props);
+    var styles={
+      headerStyle:{
+        color: '#999',
+        textAlign: 'left'
+      },
+      divStyle1:{
+        textAlign: 'center',
+      },
+      divStyle2:{
+        textAlign: 'center',
+        height: this.state.height+'px',
+        backgroundColor: '#eee',
+      },
+      iconImageStyle:{
+        width: 100,
+        height: 100,
+      },
+      buttonStyle:{
+      padding: '10px',
+      width: '200px',
+      backgroundColor:'#F57C00',
+      borderRadius: '4px',
+      },
+      flatButtonStyle:{
+        padding: '10px',
+        height: '50px',
+        fontSize: '20px',
+      },
+      buttonLabelStyle:{
+        color: '#fff',
+      }
+    }
     return (
       <div className='row'>
         <div className='col-md-2'>
@@ -98,10 +146,13 @@ class Login extends React.Component {
         <h2 style={styles.headerStyle}>Sign In</h2>
         <img src="../../../images/user-info.png" style={styles.iconImageStyle}/>
         <br/>
+
         <TextField hintText="Sourav" name="username" type="text" value={this.state.username} onChange={this.handleInputChange}
         onFocus={this.handleFocus.bind(this)} fullWidth={true}
         errorText={this.state.errorusername}
-         floatingLabelText="Username"/><br/>
+         floatingLabelText="Username"
+         onKeyPress={this.handleKeyPress.bind(this)}
+         /><br/>
 
         <TextField hintText="asdwz6a56agywe2#"
          type="password"
@@ -111,9 +162,11 @@ class Login extends React.Component {
          onFocus={this.handleFocus.bind(this)}
          errorText={this.state.errorpassword}
          floatingLabelText="Password"
+         onKeyPress={this.handleKeyPress.bind(this)}
         /><br/><br/><br/>
         <RaisedButton label="LogIn" onClick={this.handleSubmit} backgroundColor='#F57C00' fullWidth={true}
         labelStyle={styles.buttonLabelStyle} style={styles.buttonStyle}/><br/>
+
         <br/>
         <br/>
 

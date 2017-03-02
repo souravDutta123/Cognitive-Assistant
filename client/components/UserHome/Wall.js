@@ -10,13 +10,12 @@ class Wall extends React.Component {
     super(props);
 
   }
-  componentWillMount() {
-
-  }
 
  render() {
    console.log("XXX");
-     return(<MuiThemeProvider><Paper><p>asdasdas</p></Paper></MuiThemeProvider>)
+     return(
+       <div><h1>Wall</h1></div>
+     );
  }
 }
 export default Wall;
