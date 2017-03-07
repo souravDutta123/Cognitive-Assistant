@@ -44,8 +44,6 @@ app.use(passport.initialize());
 const compression = require('compression');
 app.use(compression());
 
-// Setup Web pack only for non-production environments (like Development, Load Testing etc.,)
-// if (process.env.NODE_ENV !== 'production') {
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -61,31 +59,36 @@ app.use(webpackHotMiddleware(webpackCompiler, {
   path: '/__webpack_hmr',
   heartbeat: 10 * 1000
 }));
+function authorize(token)
+{
 
-// }
-
-
-// Setup Static Routes
+}
 app.use(express.static(path.resolve(__dirname, '../', 'webclient')));
-
-
-// ******************************
-//  MOUNT YOUR REST ROUTES HERE
-// ******************************
-
-//  Eg: app.use('/resource', require(path.join(__dirname, './module')));
 
 app.get('/', function(req, res) {
   res.sendFile(path.resolve(__dirname, '../', 'webclient', 'assets',
     'index.html', 'client'));
 });
 
-app.get('/ping', (req, res) => {
-  res.send('PONG');
+app.post('/auth', function(req, res){
+  console.log(req.body.token.token);
+  var userToken= jwt.verify(req.body.token.token,'lucy') ;
+  console.log('rsre1');
+  var user=[{username: 'abc',password: '123'}];
+  if(user.length === 0)
+  {
+    res.status(401).json({message:"no such user found"});
+    return;
+  }
+  if(userToken.password === user[0].password)
+  {
+    res.status(200).json({message:"ok",user:{username: userToken.username}});
+    return;
+  }
+  res.status(401).json({message:"no such user found"});
 });
 
 app.post("/login", function(req, res) {
-  console.log('asasasa');
   if(req.body.name && req.body.password){
     var name = req.body.name;
     var password = req.body.password;
@@ -96,7 +99,7 @@ app.post("/login", function(req, res) {
   }
 
  if(user.password === req.body.password) {
-    var payload = {id: user.id, username:user.name};
+    var payload = {password: user.password, username:user.username};
     var token = jwt.sign(payload, jwtOptions.secretOrKey);
     res.status(200).json({message: "ok", token: token});
   } else {
@@ -104,11 +107,6 @@ app.post("/login", function(req, res) {
   }
 });
 
-// ******************************
-// END OF MOUNTING REST ROUTES
-// ******************************
-
-// Catch all route
 app.use(function(req, res) {
   let err = new Error('Resource not found');
   err.status = 404;

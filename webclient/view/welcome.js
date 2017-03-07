@@ -102,9 +102,6 @@ class AppHeader extends React.Component {
     window.addEventListener("resize", this.updateDimensions);
   }
 
-
-
-
   localUserAuthentication(){
     var that=this;
     var userDetails=JSON.parse(localStorage.getItem('cognitiveUser')) || {user:{},loggedin: false};
@@ -119,23 +116,22 @@ class AppHeader extends React.Component {
             that.setState({loggedin: true});
             browserHistory.push('/UserHome');
 
-          }else{
-            browserHistory.push('/Home');
           }
+            else
+            {
+            browserHistory.push('/Home');
+            }
         }
-        else{
-          browserHistory.push('/Home');
-        }
+            else
+            {
+            browserHistory.push('/Home');
+            }
       })
     }
     else{
       browserHistory.push('/Home');
     }
   }
-
-
-
-
 
 
   handleLogin(credentials){
@@ -210,6 +206,7 @@ class AppHeader extends React.Component {
   }
   handleLogoutUser(){
      localStorage.setItem('cognitiveUser', JSON.stringify({user: {},loggedin: false}));
+     localStorage.removeItem('cognitiveUserToken');
      this.setState({loggedin: false,openPopover: false,openDrawer: false});
      browserHistory.push('/Home');
      this.fetchMenu();
