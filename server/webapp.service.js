@@ -73,7 +73,7 @@ app.get('/', function(req, res) {
 app.post('/auth', function(req, res){
   console.log(req.body.token.token);
   var userToken= jwt.verify(req.body.token.token,'lucy') ;
-  console.log('rsre1');
+  console.log(userToken);
   var user=[{username: 'abc',password: '123'}];
   if(user.length === 0)
   {
