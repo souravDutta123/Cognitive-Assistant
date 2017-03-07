@@ -1,36 +1,38 @@
-var webpack = require('webpack');
-var path = require('path');
+const path = require('path');
+const webpack = require('webpack');
 
-// var BUILD_DIR = path.resolve(__dirname, 's');
-// var APP_DIR = path.resolve(__dirname, '');
-
-var config = {
-  devtool : 'source-map',
-   entry: './app.js',
-
-   output: {
-     path: '/build/js/',
-     publicPath: '/build/js/',
-     filename: 'index.js'
-   },
-
-   devServer: {
-      inline: true,
-      port: 8080
-   },
-
-   module: {
-      loaders: [
-         {
-            test: /\.jsx?$/,
-            exclude: /node_modules/,
-            loader: 'babel-loader',
-            query: {
-               presets: ['es2015', 'react', 'env']
-            }
-         }
-      ]
-   }
-}
-
-module.exports = config;
+module.exports = {
+  context: __dirname,
+  entry: [
+    'webpack-hot-middleware/client?path=http://localhost:8080/__webpack_hmr',
+    path.resolve(__dirname, 'webclient', 'App.jsx')
+  ],
+  output: {
+    path: path.resolve(__dirname, 'webclient', 'assets'),
+    filename: 'bundle.js',
+    publicPath: '/assets/'
+  },
+  devtool: 'source-map',
+  module: {
+    rules: [{
+      test: /\.json$/,
+      loader: 'json'
+    }, {
+      test: /\.jsx?$/,
+      loader: 'babel-loader',
+      options: {
+        presets: ['es2015', 'react', 'stage-1']
+      }
+    }]
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+  ],
+  node: {
+    console: true,
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  }
+};
